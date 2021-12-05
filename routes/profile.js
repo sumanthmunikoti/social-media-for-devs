@@ -31,9 +31,24 @@ router.post('/phone', async (req, res) => {
         await profile.save()
         res.json(profile)
     } catch (e) {
-        console.error(e.message)
         res.status(500).send('Server error')
     }
 })
+
+
+router.delete('/phone', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({
+            user: mongoose.Types.ObjectId(req.body.userId)
+        });
+        profile.phone = ''
+        await profile.save()
+        res.json({msg: 'Phone number deleted'})
+    } catch (e) {
+        console.err(e.message);
+        res.status(500).send('Server Error');
+    }
+})
+
 
 module.exports = router
