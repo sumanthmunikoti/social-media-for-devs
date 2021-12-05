@@ -23,7 +23,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.use(express.json({extended:false}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use('socmed/profile', profile)
+app.use('/profile', profile)
 app.use('/users', user)
 
 app.listen(port, () => {

@@ -1,20 +1,20 @@
 const express = require('express')
 const router = express.Router()
 const Profile = require('../models/userProfile')
+const mongoose = require('mongoose')
 
-router.get('/me', async (req, res) => {
+router.post('/me', async (req, res) => {
+
+    console.log(req.body)
+
     try {
-        const profile = await Profile.findOne({
-            user: req.user.id
+        const profile = await Profile.find({
+            user: mongoose.Types.ObjectId(req.body.userId)
         })
-        .populate('user')
 
-        //check to see if there's no profile
-        if (!profile) {
-            return response.status(400).json({msg: 'Profile for this user does not exist!'})
-        }
-        //if there is a profile
-        await response.json(profile);
+        console.log('profile', profile)
+        res.json(profile);
+
     } catch (e) {
         console.error(e.message);
         response.status(500).send('Server Error');
