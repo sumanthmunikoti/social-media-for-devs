@@ -43,12 +43,44 @@ router.delete('/phone', async (req, res) => {
         });
         profile.phone = ''
         await profile.save()
-        res.json({msg: 'Phone number deleted'})
+        res.json({ msg: 'Phone number deleted' })
     } catch (e) {
         console.err(e.message);
         res.status(500).send('Server Error');
     }
 })
+
+router.put('/experience', async (req, res) => {
+        console.log("Here")
+        const {
+            userId,
+            title,
+            company,
+            from,
+            to,
+            current,
+            description
+        } = req.body;
+
+        const newExp = {
+            title,
+            company,
+            from,
+            to,
+            current,
+            description
+        }
+
+        try {
+            const profile = await Profile.findOne({ user: userId })
+            profile.experience.unshift(newExp)
+            await profile.save()
+            res.json(profile)
+        } catch (e) {
+            console.log(e.message)
+            res.status(500).send('Server error')
+        }
+    })
 
 
 module.exports = router
