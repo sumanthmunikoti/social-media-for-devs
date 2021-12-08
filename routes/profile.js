@@ -10,6 +10,7 @@ router.post('/me', async (req, res) => {
             user: mongoose.Types.ObjectId(req.body.userId)
         })
 
+        console.log(profile.experience)
         res.json(profile);
 
     } catch (e) {
