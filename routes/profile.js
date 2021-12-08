@@ -52,36 +52,54 @@ router.delete('/phone', async (req, res) => {
 })
 
 router.put('/experience', async (req, res) => {
-        console.log("Here")
-        const {
-            userId,
-            title,
-            company,
-            from,
-            to,
-            current,
-            description
-        } = req.body;
+    console.log("Here")
+    const {
+        userId,
+        title,
+        company,
+        from,
+        to,
+        current,
+        description
+    } = req.body;
 
-        const newExp = {
-            title,
-            company,
-            from,
-            to,
-            current,
-            description
-        }
+    const newExp = {
+        title,
+        company,
+        from,
+        to,
+        current,
+        description
+    }
 
-        try {
-            const profile = await Profile.findOne({ user: userId })
-            profile.experience.unshift(newExp)
-            await profile.save()
-            res.json(profile)
-        } catch (e) {
-            console.log(e.message)
-            res.status(500).send('Server error')
-        }
-    })
+    try {
+        const profile = await Profile.findOne({ user: userId })
+        profile.experience.unshift(newExp)
+        await profile.save()
+        res.json(profile)
+    } catch (e) {
+        console.log(e.message)
+        res.status(500).send('Server error')
+    }
+})
 
+
+router.get('/all', (req, res) => {
+    const errors = {};
+
+    Profile.find()
+        .populate('user')
+        .then(profiles => {
+            if (!profiles) {
+                errors.noprofile = 'There are no profiles';
+                return res.status(404).json(errors);
+            }
+
+            res.json(profiles);
+        })
+        .catch(err => res.status(404).json({
+            profile: 'There are no profiles'
+        }));
+});
 
 module.exports = router
