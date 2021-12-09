@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/post')
+const User = require('../models/user')
 
 router.get('/', async (req, res) => {
     try {
@@ -11,5 +12,24 @@ router.get('/', async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+router.post('/', async (req, res) => {
+    console.log("............")
+    try {
+        const user = await User.findById(req.body.userId)
+
+        const newPost = new Post({
+            text: req.body.text,
+            user: req.body.userId
+        })
+
+        const savedPost = await newPost.save()
+
+        return res.json(savedPost)
+    } catch (e) {
+        return res.status(500).json('server error');
+    }
+
+})
 
 module.exports = router
