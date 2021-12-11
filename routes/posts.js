@@ -31,6 +31,21 @@ router.post('/', async (req, res) => {
 
 })
 
+router.get('/:id', async (req, res) => {
+    
+    try {
+        const post = await Post.findById(req.params.id).populate('user')
+        .then(pst => pst)
+        // // console.log(".....", post)
+        // if (!post) return res.status(404).json('Cannot find post');
+        return res.json(post);
+       
+    }
+    catch (e) {
+        console.log(e.message)
+    }
+})
+
 
 router.put('/like/:id', async (req, res) => {
     try {
