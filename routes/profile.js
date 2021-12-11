@@ -83,6 +83,20 @@ router.put('/experience', async (req, res) => {
     }
 })
 
+router.delete('/experience/:id', async (req, res) => {
+    console.log("here", req.body.userId)
+    try {
+        const profile = await Profile.findOne({ user: mongoose.Types.ObjectId(req.body.userId) })
+        const removeIdx = profile.experience.map(item => item.id)
+            .indexOf(req.params.id)
+        profile.experience.splice(removeIdx, 1)
+        await profile.save()
+        res.json(profile)
+    } catch (e) {
+        console.log(e.message);
+        res.status(500).send('Server Error');
+    }
+})
 
 router.get('/all', (req, res) => {
     const errors = {};
