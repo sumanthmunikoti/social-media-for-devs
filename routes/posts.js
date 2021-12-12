@@ -32,14 +32,14 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-    
+
     try {
         const post = await Post.findById(req.params.id).populate('user')
-        .then(pst => pst)
+            .then(pst => pst)
         // // console.log(".....", post)
         // if (!post) return res.status(404).json('Cannot find post');
         return res.json(post);
-       
+
     }
     catch (e) {
         console.log(e.message)
@@ -91,5 +91,26 @@ router.put('/unlike/:id', async (req, res) => {
     }
 })
 
+router.post('/comment/:id', async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+
+        if (!post)
+            return res.status(404).json('post not available');
+
+        const comment = {
+            user: req.body.userId,
+            text: req.body.text
+        }
+
+        post.comments.push(comment)
+        await post.save()
+        res.json(post.comments)
+    } 
+    catch (e) {
+        console.log(e)
+        return res.status(500).json('server error')
+    }
+})
 
 module.exports = router
