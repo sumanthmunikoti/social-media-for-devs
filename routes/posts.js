@@ -106,11 +106,18 @@ router.post('/comment/:id', async (req, res) => {
         post.comments.push(comment)
         await post.save()
         res.json(post.comments)
-    } 
+    }
     catch (e) {
         console.log(e)
         return res.status(500).json('server error')
     }
+})
+
+router.get('/id/:id', (req, res) => {
+    User.findById(req.params.id).exec((err, user) => {
+        if (err) res.json(err)
+        return res.json(user)
+    })
 })
 
 module.exports = router
