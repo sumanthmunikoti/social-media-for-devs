@@ -28,3 +28,14 @@ A user can make multiple posts which can be viewed publicly by other users.
 #### Comments: 
 A post can have many comments
 A user can make many comments to a post.
+
+### Enumeration:
+A user can update his skills only as "Software deelopment", "Web development" and "Backend development"
+
+### User Interface:
+
+1. Login page
+2. Page to view, add and delete experiences
+3. Webpage to view all user profiles
+4. Page to view all posts, like/unlike them
+5. Page to make comments on posts
