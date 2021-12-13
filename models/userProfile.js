@@ -25,7 +25,8 @@ const ProfileSchema = new mongoose.Schema({
         type: String
     },
     skills: {
-        type: [String]
+        type: [String],
+        enum: ["Web development", "Backend development", "Quality Assurance"]
     },
     image: {
         type: String
@@ -117,4 +118,5 @@ const ProfileSchema = new mongoose.Schema({
         default: Date.now()
     }
 });
+
 module.exports = Profile = mongoose.model('profile', ProfileSchema)
